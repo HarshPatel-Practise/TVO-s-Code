@@ -4,17 +4,14 @@ describe('TVO Learn Automation Test Suite', () => {
 
     beforeEach(() => {
         // Visit the main website before each test
-        cy.visit('https://tvolearn.com/')
+        cy.visit('https://tvolearn.com/');
     });
 
     it('Navigates to the Learning Resources dropdown', () => {
-        // Scroll or focus on the navigation menu
-        cy.get('nav').scrollIntoView();
-        
-        // Hover over the dropdown with force
+        // Hover over the "Learning Resources (K-12)" dropdown
         cy.get('nav').contains('Learning Resources (K-12)').trigger('mouseover', { force: true });
-        
-        // Assert visibility of dropdown options
+
+        // Verify dropdown options are visible
         cy.contains('Grade 1').should('be.visible');
     });
 
@@ -23,7 +20,7 @@ describe('TVO Learn Automation Test Suite', () => {
         cy.get('nav').contains('Learning Resources (K-12)').trigger('mouseover', { force: true });
         cy.contains('Grade 3').click({ force: true });
 
-        // Verify that the URL updates correctly
+        // Verify URL update
         cy.url().should('include', '/grade-3');
     });
 
@@ -32,10 +29,8 @@ describe('TVO Learn Automation Test Suite', () => {
         cy.get('nav').contains('Learning Resources (K-12)').trigger('mouseover', { force: true });
         cy.contains('Grade 4').click({ force: true });
 
-        // Scroll to the curriculum section
-        cy.contains('Learn Forward in the Curriculum').scrollIntoView();
-
-        // Verify the section is visible
+        // Scroll to the curriculum section and verify
+        cy.contains('Learn Forward in the Curriculum').first().scrollIntoView();
         cy.contains('Learn Forward in the Curriculum').should('be.visible');
     });
 
@@ -44,11 +39,11 @@ describe('TVO Learn Automation Test Suite', () => {
         cy.get('nav').contains('Learning Resources (K-12)').trigger('mouseover', { force: true });
         cy.contains('Grade 5').click({ force: true });
 
-        // Scroll and click on the first subject card
+        // Scroll and wait for subject cards to load
         cy.contains('Learn Forward in the Curriculum').scrollIntoView();
-        cy.get('.subject-card').first().click();
+        cy.get('.subject-card').should('exist').first().click();
 
-        // Verify navigation to a subject page
+        // Verify navigation
         cy.url().should('include', '/subject');
     });
 
@@ -57,7 +52,7 @@ describe('TVO Learn Automation Test Suite', () => {
         cy.get('nav').contains('Learning Resources (K-12)').trigger('mouseover', { force: true });
         cy.contains('Grade 6').click({ force: true });
 
-        // Scroll to the curriculum section and check for cards
+        // Scroll to curriculum section and ensure cards exist
         cy.contains('Learn Forward in the Curriculum').scrollIntoView();
         cy.get('.subject-card').should('have.length.greaterThan', 0);
     });
